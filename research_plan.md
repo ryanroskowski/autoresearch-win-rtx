@@ -5,6 +5,14 @@ bits per byte (`val_bpb`): lower is better. Secondary diagnostics can be added
 when an experiment targets a weakness that `val_bpb` alone does not fully
 measure.
 
+## Biology Translation Rule
+
+This project is biased toward neuroscience and biology, but not literal
+biological simulation. For each biological idea, ask what computational pressure
+it solves: gain control, local specialization, fast memory, replay,
+stability, uncertainty, or efficient credit assignment. Then implement the
+smallest mechanism that tests that pressure.
+
 ## Buckets
 
 ### Lab-Ready Now
@@ -87,6 +95,7 @@ Examples:
 
 ## Current First-Pass Priority
 
-The first hard-sparsity MLP test was worse than baseline. Future sparsity tests
-should be gentler: learned gates, late-layer-only sparsity, or regularization
-instead of thresholding every MLP activation.
+The first hard-sparsity MLP test was worse than baseline. Future biology-inspired
+tests should be gentler and closer to known circuit motifs: neuromodulated gates,
+dendritic branches, nested modules, laminar feedback, predictive-coding
+auxiliaries, replay, homeostasis, and slow/fast pathways.

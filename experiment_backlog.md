@@ -10,6 +10,86 @@ Each item should be run alone before being combined with other ideas.
 - Baseline `val_bpb`: `1.067957`
 - First failed idea: hard competitive sparse MLP, `1.110201`
 
+## Neuroscience / Biology Priority Queue
+
+These are ordered by expected signal-to-complexity on this repo. Each item should
+translate a biological idea into the smallest ML mechanism that can be tested.
+
+**NB-1: Neuromodulated residual gate**
+- Biology inspiration: neuromodulators adjust gain, attention, uncertainty, and
+  learning state across broad circuits.
+- Hypothesis: a token-conditioned gate initialized to the baseline can learn when
+  to amplify or suppress the MLP residual, improving sample efficiency or
+  robustness without blunt sparsity.
+- Bucket: sample efficiency + calibration/metacognition + sparse computation.
+- Harness: standard `val_bpb`; optional calibration/corruption diagnostics.
+- Status: next experiment.
+
+**NB-2: Dendritic MLP branches**
+- Biology inspiration: dendrites perform local nonlinear computation before a
+  neuron emits its output.
+- Hypothesis: several small MLP branches plus a learned combiner may outperform a
+  single flat MLP at similar parameter count.
+- Bucket: modularity + raw modeling quality.
+
+**NB-3: Nested cortical-column MLP**
+- Biology inspiration: cortex has nested circuits such as minicolumns, columns,
+  areas, and long-range connections.
+- Hypothesis: grouped feedforward channels with limited cross-group mixing can
+  encourage specialization while preserving enough communication.
+- Bucket: modularity + sparse computation.
+
+**NB-4: Laminar / top-down feedback block**
+- Biology inspiration: neocortical layers have different feedforward,
+  integration, and feedback roles.
+- Hypothesis: a small top-down or skip-feedback signal can improve refinement and
+  sample efficiency compared with a purely feedforward stack.
+- Bucket: memory + planning/test-time thinking.
+
+**NB-5: Predictive-coding auxiliary loss**
+- Biology inspiration: predictive processing theories emphasize predicting
+  hidden causes and propagating error signals.
+- Hypothesis: a tiny hidden-state prediction objective can regularize internal
+  representations and improve early learning.
+- Bucket: sample efficiency + raw modeling quality.
+
+**NB-6: Hippocampal replay for continual learning**
+- Biology inspiration: hippocampus supports fast episodic learning and replay for
+  cortical consolidation.
+- Hypothesis: replaying a small buffer from phase A while adapting to phase B
+  reduces forgetting.
+- Bucket: continual learning + memory.
+- Harness needed: two-phase continual-learning trainer.
+
+**NB-7: Homeostatic excitation/inhibition balance**
+- Biology inspiration: cortical circuits regulate excitatory and inhibitory
+  activity to avoid runaway dynamics.
+- Hypothesis: a light activation-balance penalty or inhibitory channel can
+  stabilize training and improve robustness.
+- Bucket: robustness + optimization + sparse computation.
+
+**NB-8: Slow/fast pathways and rhythms**
+- Biology inspiration: neural systems operate across multiple timescales and
+  oscillatory rhythms.
+- Hypothesis: layers or channels updated at different frequencies can improve
+  efficiency or memory.
+- Bucket: memory + sample efficiency.
+
+**NB-9: Neurogenesis / adaptive growth**
+- Biology inspiration: biological systems can add or repurpose capacity as they
+  encounter novelty.
+- Hypothesis: small expandable modules can absorb new tasks while preserving old
+  behavior.
+- Bucket: continual learning + modularity.
+- Harness needed: two-phase continual-learning trainer.
+
+**NB-10: Chemical broadcast tokens**
+- Biology inspiration: chemical signals broadcast low-dimensional global state
+  that modulates many local computations.
+- Hypothesis: a few learned global modulatory vectors can improve coordination
+  across layers.
+- Bucket: memory + calibration/metacognition + modulation.
+
 ## Lab-Ready Now
 
 ### Sample Efficiency
@@ -26,6 +106,12 @@ Each item should be run alone before being combined with other ideas.
   the larger baseline on TinyStories.
 - Change: reduce `DEPTH` or `ASPECT_RATIO`.
 - Metric: `val_bpb`, tokens processed, steps.
+
+**SE-3 / NB-1: Neuromodulated residual gate**
+- Hypothesis: token-conditioned gain control can improve early learning while
+  starting from baseline-equivalent behavior.
+- Change: multiply the MLP residual by a learned scalar gate initialized to 1.
+- Metric: `val_bpb`; optional calibration and corruption diagnostics.
 
 ### Raw Modeling Quality
 
@@ -67,6 +153,18 @@ Each item should be run alone before being combined with other ideas.
 - Change: add simple two-way routing in MLP.
 - Metric: `val_bpb`, routing entropy, speed.
 
+**MO-3 / NB-2: Dendritic MLP branches**
+- Hypothesis: local branch computation plus learned combining can provide a
+  dendrite-like inductive bias.
+- Change: split MLP hidden channels into branches with branch-level gates.
+- Metric: `val_bpb`, parameter count, speed.
+
+**MO-4 / NB-3: Nested cortical-column MLP**
+- Hypothesis: nested channel groups improve specialization without full MoE
+  overhead.
+- Change: grouped feedforward channels plus occasional cross-group mixing.
+- Metric: `val_bpb`, speed, robustness diagnostics.
+
 ### Memory
 
 **ME-1: Recurrent residual state**
@@ -78,6 +176,11 @@ Each item should be run alone before being combined with other ideas.
 - Hypothesis: reserved summary tokens can carry useful context through layers.
 - Change: prepend a small number of learned memory tokens internally.
 - Metric: `val_bpb`, memory use.
+
+**ME-3 / NB-4: Laminar feedback signal**
+- Hypothesis: top-down or late-to-early-style modulation improves refinement.
+- Change: add a small feedback/modulation path across layer groups.
+- Metric: `val_bpb`; later, calibration and synthetic reasoning diagnostics.
 
 ### Optimization
 
@@ -100,6 +203,12 @@ Each item should be run alone before being combined with other ideas.
 - Harness needed: phase A/phase B train script or train options.
 - Hypothesis: modular/gated updates forget less after switching data slices.
 - Metric: phase A BPB after phase B, phase B BPB, forgetting delta.
+
+**CL-2 / NB-6: Hippocampal replay**
+- Harness needed: phase A/phase B trainer with a replay buffer.
+- Hypothesis: small replay buffers reduce forgetting more cheaply than full
+  mixed-data retraining.
+- Metric: forgetting delta and phase B learning speed.
 
 ### Robustness
 

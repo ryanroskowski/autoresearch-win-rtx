@@ -30,6 +30,10 @@ experiments that teach us something, even when they fail.
 
 Use `research_plan.md` as the standing map of experiment categories. Every
 experiment must name a primary bucket and, when useful, a secondary bucket.
+Keep `experiment_backlog.md` as the ordered idea queue. When a new neuroscience,
+biology, or cross-cutting experiment idea appears during analysis, add it there
+before or after the current run, with enough detail that a later session can
+pick it up.
 
 **Lab-ready now** experiments only need `train.py` changes and the standard
 fixed-budget run:
