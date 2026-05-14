@@ -26,6 +26,45 @@ Avoid cargo-cult neuroscience. If the change adds complexity without a clear
 mechanistic reason and a measurable gain, discard it. Prefer tiny controlled
 experiments that teach us something, even when they fail.
 
+## Research categories and measurement buckets
+
+Use `research_plan.md` as the standing map of experiment categories. Every
+experiment must name a primary bucket and, when useful, a secondary bucket.
+
+**Lab-ready now** experiments only need `train.py` changes and the standard
+fixed-budget run:
+
+- Sample efficiency
+- Raw modeling quality
+- Sparse computation
+- Modularity
+- Memory
+- Optimization
+
+**Needs small harness additions** experiments are allowed, but keep the harness
+separate from the primary evaluation:
+
+- Continual learning
+- Robustness
+- Calibration/metacognition
+- Synthetic reasoning
+- Out-of-distribution transfer
+
+Use scripts in `evals/` for optional diagnostics after a checkpoint exists. The
+standard `val_bpb` from `uv run train.py` remains the primary keep/discard score
+unless the human explicitly declares a different target for a diagnostic run.
+
+**Bigger research track** ideas should be written up before implementation:
+
+- Grounding/world models
+- Planning/test-time thinking
+- Interactive skill acquisition
+
+Cross-cutting experiments are encouraged only after their ingredients have been
+tested alone or have clearly complementary failure modes. Log the component
+ideas, expected interaction, primary metric, secondary diagnostics, and whether
+the combination was additive, redundant, or harmful.
+
 ## Setup
 
 To set up a new experiment, work with the user to:
