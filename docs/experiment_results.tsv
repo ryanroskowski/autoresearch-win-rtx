@@ -1,0 +1,3 @@
+commit	val_bpb	memory_gb	status	description
+f9516d5	1.067957	5.3	keep	baseline unmodified windows RTX fork
+c4ef467	1.110201	5.3	discard	mean-threshold competitive sparse MLP with active-fraction rescale
