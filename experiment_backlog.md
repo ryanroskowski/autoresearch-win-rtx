@@ -8,6 +8,8 @@ Each item should be run alone before being combined with other ideas.
 - Branch: `autoresearch/may14-neuro`
 - Baseline commit: `f9516d5`
 - Baseline `val_bpb`: `1.067957`
+- Fresh baseline-control commit: `7b24894`
+- Fresh baseline-control `val_bpb`: `1.002585`
 - First failed idea: hard competitive sparse MLP, `1.110201`
 
 ## Neuroscience / Biology Priority Queue
@@ -23,13 +25,16 @@ translate a biological idea into the smallest ML mechanism that can be tested.
   robustness without blunt sparsity.
 - Bucket: sample efficiency + calibration/metacognition + sparse computation.
 - Harness: standard `val_bpb`; optional calibration/corruption diagnostics.
-- Status: first run kept at `f6be652`; needs reproduction and ablations.
+- Status: discarded after fresh baseline-control. Initial run `f6be652`
+  (`1.046428`) and repeat `5c96b86` (`1.033295`) both lost to the fresh control
+  `7b24894` (`1.002585`).
 
 **NB-1A: Repeat neuromodulated residual gate**
 - Hypothesis: the NB-1 improvement is a real signal, not a one-run fluctuation.
 - Change: rerun the same patch, ideally with another seed if seed support is
   added, or with the same seed as a determinism check.
 - Metric: `val_bpb`, steps, throughput.
+- Status: done once; repeat was worse than fresh baseline.
 
 **NB-1B: Gate ablation and mechanism check**
 - Hypothesis: the learned input-conditioned gate matters, not just the added
@@ -37,6 +42,9 @@ translate a biological idea into the smallest ML mechanism that can be tested.
 - Change: compare learned gate, frozen gate at 1, layer-only scalar gate, and
   attention-residual gate.
 - Metric: `val_bpb`; optionally log gate mean/std by layer.
+- Status: frozen identity gate scored `1.015049`, which triggered a fresh
+  baseline-control rerun. Do not continue this line until same-session controls
+  are in place.
 
 **NB-2: Dendritic MLP branches**
 - Biology inspiration: dendrites perform local nonlinear computation before a
@@ -44,6 +52,8 @@ translate a biological idea into the smallest ML mechanism that can be tested.
 - Hypothesis: several small MLP branches plus a learned combiner may outperform a
   single flat MLP at similar parameter count.
 - Bucket: modularity + raw modeling quality.
+- Status: first branch-gate implementation discarded at `7b79a17` (`1.051728`).
+  Future versions need a stronger reason than simple branch gain.
 
 **NB-3: Nested cortical-column MLP**
 - Biology inspiration: cortex has nested circuits such as minicolumns, columns,
@@ -132,6 +142,8 @@ translate a biological idea into the smallest ML mechanism that can be tested.
 - Hypothesis: the `SSSL` attention pattern may not be optimal on this GPU/data.
 - Change: test `LLLL`, `SLLL`, or `SSLL`.
 - Metric: `val_bpb`, throughput, memory.
+- Status: `LLLL` discarded at `9b53e4a` (`1.030899`), worse than fresh `SSSL`
+  baseline. `SLLL` or `SSLL` remain untested.
 
 **MQ-2: Residual initialization sweep**
 - Hypothesis: `x0_lambdas` and residual scales influence early training stability.

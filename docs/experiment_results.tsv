@@ -1,4 +1,9 @@
 commit	val_bpb	memory_gb	status	description
 f9516d5	1.067957	5.3	keep	baseline unmodified windows RTX fork
 c4ef467	1.110201	5.3	discard	mean-threshold competitive sparse MLP with active-fraction rescale
-f6be652	1.046428	5.3	keep	token-conditioned neuromodulated MLP residual gate
+f6be652	1.046428	5.3	discard	token-conditioned neuromodulated MLP gate initial signal later superseded by fresh baseline
+5c96b86	1.033295	5.3	discard	repeat token-conditioned neuromodulated MLP gate worse than fresh baseline
+df6786c	1.015049	5.3	discard	frozen identity MLP gate ablation worse than fresh baseline
+7b24894	1.002585	5.3	keep	fresh baseline control rerun under current conditions
+7b79a17	1.051728	5.3	discard	dendritic branch-gated MLP
+9b53e4a	1.030899	5.3	discard	all-full attention window pattern
