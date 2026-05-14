@@ -425,6 +425,9 @@ class MLP(nn.Module):
     def forward(self, x):
         x = self.c_fc(x)
         x = F.relu(x).square()
+        mask = x > x.mean(dim=-1, keepdim=True)
+        keep_frac = mask.float().mean(dim=-1, keepdim=True).clamp_min(1.0 / x.size(-1))
+        x = x * mask.to(x.dtype) / keep_frac.to(x.dtype)
         x = self.c_proj(x)
         return x
 
