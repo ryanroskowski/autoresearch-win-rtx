@@ -2,6 +2,30 @@
 
 This is an experiment to have the LLM do its own research.
 
+## Research direction for this computer
+
+The human is especially interested in whether neuroscience-inspired ideas can
+improve a small language model, so bias the search toward simple, testable
+translations of brain ideas rather than literal biological realism. Every idea
+must still be judged only by `val_bpb`, stability, speed, and simplicity.
+
+Good first directions:
+
+- Sparse or competitive activations: top-k/thresholded MLP activations, sparse
+  experts, or cheap gating that activates fewer channels per token.
+- Modularity: small parallel modules, grouped MLPs, or head/module specialization
+  with minimal routing overhead.
+- Context gating: learned multiplicative gates, dendrite-like conditioning, or
+  token/context-dependent modulation of residual streams.
+- Recurrence and memory: tiny recurrent state, feedback-style mixing, or
+  inexpensive working-memory paths that do not blow up sequence length compute.
+- Predictive-coding flavor: auxiliary prediction/denoising losses are allowed if
+  they are very small, easy to remove, and do not alter the evaluation harness.
+
+Avoid cargo-cult neuroscience. If the change adds complexity without a clear
+mechanistic reason and a measurable gain, discard it. Prefer tiny controlled
+experiments that teach us something, even when they fail.
+
 ## Setup
 
 To set up a new experiment, work with the user to:
