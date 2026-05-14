@@ -439,7 +439,7 @@ class Block(nn.Module):
     def forward(self, x, ve, cos_sin, window_size):
         x = x + self.attn(norm(x), ve, cos_sin, window_size)
         h = norm(x)
-        gate = 2 * torch.sigmoid(self.mlp_gate(h))
+        gate = 1.0 + 0.0 * self.mlp_gate(h)
         x = x + gate * self.mlp(h)
         return x
 
