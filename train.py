@@ -420,13 +420,15 @@ class MLP(nn.Module):
     def __init__(self, config):
         super().__init__()
         self.c_fc = nn.Linear(config.n_embd, 4 * config.n_embd, bias=False)
+        self.branch_gate = nn.Linear(config.n_embd, 4, bias=False)
         self.c_proj = nn.Linear(4 * config.n_embd, config.n_embd, bias=False)
 
     def forward(self, x):
-        x = self.c_fc(x)
-        x = F.relu(x).square()
-        x = self.c_proj(x)
-        return x
+        h = self.c_fc(x)
+        h = F.relu(h).square()
+        gate = 2 * torch.sigmoid(self.branch_gate(x)).unsqueeze(-1)
+        h = h.view(*h.shape[:-1], 4, -1) * gate
+        return self.c_proj(h.flatten(-2))
 
 
 class Block(nn.Module):
@@ -476,6 +478,7 @@ class GPT(nn.Module):
             torch.nn.init.uniform_(block.attn.c_v.weight, -s, s)
             torch.nn.init.zeros_(block.attn.c_proj.weight)
             torch.nn.init.uniform_(block.mlp.c_fc.weight, -s, s)
+            torch.nn.init.zeros_(block.mlp.branch_gate.weight)
             torch.nn.init.zeros_(block.mlp.c_proj.weight)
         self.resid_lambdas.fill_(1.0)
         self.x0_lambdas.fill_(0.1)
