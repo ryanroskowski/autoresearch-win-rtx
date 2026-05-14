@@ -23,7 +23,20 @@ translate a biological idea into the smallest ML mechanism that can be tested.
   robustness without blunt sparsity.
 - Bucket: sample efficiency + calibration/metacognition + sparse computation.
 - Harness: standard `val_bpb`; optional calibration/corruption diagnostics.
-- Status: next experiment.
+- Status: first run kept at `f6be652`; needs reproduction and ablations.
+
+**NB-1A: Repeat neuromodulated residual gate**
+- Hypothesis: the NB-1 improvement is a real signal, not a one-run fluctuation.
+- Change: rerun the same patch, ideally with another seed if seed support is
+  added, or with the same seed as a determinism check.
+- Metric: `val_bpb`, steps, throughput.
+
+**NB-1B: Gate ablation and mechanism check**
+- Hypothesis: the learned input-conditioned gate matters, not just the added
+  parameter path or small optimizer perturbation.
+- Change: compare learned gate, frozen gate at 1, layer-only scalar gate, and
+  attention-residual gate.
+- Metric: `val_bpb`; optionally log gate mean/std by layer.
 
 **NB-2: Dendritic MLP branches**
 - Biology inspiration: dendrites perform local nonlinear computation before a
