@@ -131,3 +131,33 @@ branching remains interesting, but this implementation is not the right form.
 Interpretation:
 Full attention in every layer lost to the default window pattern on this setup.
 The default `SSSL` remains the better control.
+
+## Experiment 8: Six-Layer Sample-Efficiency Model
+
+- Commit: `9e33349`
+- Status: `keep`
+- `val_bpb`: `0.830524`
+- Fresh 8-layer baseline delta: `-0.172061` better
+- Peak VRAM: `4.7 GB`
+- Steps: `63`
+- Total tokens: `33.0M`
+- Parameters: `26.3M`
+- Depth: `6`
+- Description: reduced `DEPTH` from `8` to `6`, which also reduced model width
+  through the repo's existing depth-to-width rule.
+
+Secondary diagnostics over 32,768 eval tokens:
+- Clean BPB: `0.928744`
+- Clean token accuracy: `0.423177`
+- Clean ECE-10: `0.028693`
+- 5% token-corruption BPB: `1.046612`
+- 5% token-corruption token accuracy: `0.393029`
+- 5% token-corruption ECE-10: `0.007825`
+
+Interpretation:
+This is the strongest result so far. A smaller 6-layer, 26.3M-parameter model
+processed substantially more tokens within the fixed time budget and beat the
+fresh 8-layer baseline by a large margin. The current regime appears
+undertrained enough that speed/sample efficiency dominates raw parameter count.
+Next follow-ups should sweep nearby depths and width/depth tradeoffs before
+returning to more complex biology-inspired modules.

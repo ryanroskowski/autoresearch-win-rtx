@@ -10,6 +10,8 @@ Each item should be run alone before being combined with other ideas.
 - Baseline `val_bpb`: `1.067957`
 - Fresh baseline-control commit: `7b24894`
 - Fresh baseline-control `val_bpb`: `1.002585`
+- Current best commit: `9e33349`
+- Current best `val_bpb`: `0.830524`
 - First failed idea: hard competitive sparse MLP, `1.110201`
 
 ## Neuroscience / Biology Priority Queue
@@ -129,6 +131,18 @@ translate a biological idea into the smallest ML mechanism that can be tested.
   the larger baseline on TinyStories.
 - Change: reduce `DEPTH` or `ASPECT_RATIO`.
 - Metric: `val_bpb`, tokens processed, steps.
+- Status: `DEPTH=6` kept at `9e33349` with `0.830524`, the current best.
+
+**SE-2A: Depth sweep around the new best**
+- Hypothesis: the optimal fixed-budget point may be near but not exactly depth 6.
+- Change: test `DEPTH=5`, `DEPTH=7`, and possibly `DEPTH=4`, comparing against
+  `9e33349`.
+- Metric: `val_bpb`, tokens processed, steps, memory.
+
+**SE-2B: Width/depth tradeoff at depth 6**
+- Hypothesis: depth 6 wins because of speed, but its width may not be optimal.
+- Change: test nearby `ASPECT_RATIO` values while keeping depth 6.
+- Metric: `val_bpb`, parameter count, throughput.
 
 **SE-3 / NB-1: Neuromodulated residual gate**
 - Hypothesis: token-conditioned gain control can improve early learning while

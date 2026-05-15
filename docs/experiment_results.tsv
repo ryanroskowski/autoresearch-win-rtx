@@ -7,3 +7,4 @@ df6786c	1.015049	5.3	discard	frozen identity MLP gate ablation worse than fresh 
 7b24894	1.002585	5.3	keep	fresh baseline control rerun under current conditions
 7b79a17	1.051728	5.3	discard	dendritic branch-gated MLP
 9b53e4a	1.030899	5.3	discard	all-full attention window pattern
+9e33349	0.830524	4.7	keep	six-layer sample-efficiency model
